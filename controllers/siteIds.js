@@ -14,7 +14,7 @@ module.exports = {
   append: catchAsync(async (req, res) => {
     const { alerts } = req.body;
     if (!alerts?.labels?.siteIds)
-      throw new CustomError('No SiteIds found!', 500);
+      throw new CustomError('No SiteIds found!', 400);
     for (let alert of alerts) {
       siteIds.add(alert?.labels?.siteId);
     }

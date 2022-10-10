@@ -1,4 +1,5 @@
 const axios = require('axios');
+require('dotenv').config();
 
 function formatDate(date) {
   var d = new Date(date),
@@ -23,7 +24,7 @@ const generateMetaData = async (notebookParams) => {
       jobPayload,
       {
         headers: {
-          Authorization: 'Bearer dapid6e27b0a93263571021800d2906ee049-2',
+          Authorization: `Bearer ${process.env.DATABRICKS_AUTH_TOKEN}`,
         },
       }
     );
@@ -33,4 +34,5 @@ const generateMetaData = async (notebookParams) => {
   }
 };
 
-module.exports = { formatDate, generateMetaData };
+const rootDir = __dirname;
+module.exports = { formatDate, generateMetaData, rootDir };

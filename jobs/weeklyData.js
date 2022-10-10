@@ -6,6 +6,7 @@ const path = require('path');
 const { siteIds } = require('../database/siteIds');
 
 function weeklyJob() {
+  console.log('Started job');
   const job = schedule.scheduleJob('4 5 * * 0', async function () {
     try {
       const endDate = new Date();
