@@ -3,9 +3,9 @@ const CustomError = require('../error/custom-error');
 const schedule = require('node-schedule');
 const ObjectsToCsv = require('objects-to-csv');
 const fs = require('fs');
-const { formatDate, generateMetaData, rootDir } = require('../utils');
+const { formatDate, rootDir } = require('../utils');
 const path = require('path');
-const { siteIds } = require('../database/siteIds');
+const { db } = require('../database');
 
 module.exports = {
   getSpecificError: catchAsync(async (req, res) => {
@@ -14,10 +14,7 @@ module.exports = {
       throw new CustomError('Error Message or mode is missing!', 400);
     if (mode !== 'WEEKLY' && mode !== 'CUSTOM')
       throw new CustomError('Wrong Mode provided!', 400);
-    const filePath =
-      mode === 'WEEKLY'
-        ? path.join(rootDir, '/tmp/weekly-entire-data.json')
-        : path.join(rootDir, '/tmp/custom-entire-data.json');
+    const filePath = path.join(rootDir, `/tmp/${mode}-entire-data.json`);
     let entireData = fs.readFileSync(filePath, {
       encoding: 'utf8',
       flag: 'r',
@@ -42,10 +39,7 @@ module.exports = {
     if (mode !== 'WEEKLY' && mode !== 'CUSTOM')
       throw new CustomError('Wrong Mode provided!', 400);
     jsonData = JSON.stringify(jsonData);
-    const filePath =
-      mode === 'WEEKLY'
-        ? path.join(rootDir, '/tmp/weekly-entire-data.json')
-        : path.join(rootDir, '/tmp/custom-entire-data.json');
+    const filePath = path.join(rootDir, `/tmp/${mode}-entire-data.json`);
     fs.writeFile(filePath, jsonData, (err) => {
       if (err) {
         throw new CustomError('Error occured while saving the file!', 500);
