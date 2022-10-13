@@ -1,6 +1,8 @@
 const axios = require('axios');
 require('dotenv').config();
+const { CustomError } = require('../error/custom-error');
 
+// Makes a post request to generate meta data and cache the respective entire-data according to the mode
 const generateMetaData = async (notebookParams) => {
   try {
     const jobPayload = {
@@ -16,7 +18,7 @@ const generateMetaData = async (notebookParams) => {
         },
       }
     );
-    console.log(res);
+    return res;
   } catch (err) {
     console.log('OOPS an error occured in generateWeeklyData : ', err);
   }

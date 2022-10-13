@@ -5,7 +5,9 @@ const ObjectsToCsv = require('objects-to-csv');
 const fs = require('fs');
 const { formatDate, rootDir } = require('../utils');
 const path = require('path');
-const { db } = require('../database');
+const { database } = require('../database');
+const { generateMetaData } = require('../helpers/generate-data');
+const { getSiteIdsInRange } = require('../helpers/siteIds');
 
 module.exports = {
   getSpecificError: catchAsync(async (req, res) => {
@@ -47,5 +49,27 @@ module.exports = {
         return res.status(200).send('FILE SAVED');
       }
     });
+  }),
+  manual: catchAsync(async (req, res) => {
+    //generate manual meta data
+    let { startDate, endDate, mode, event } = req.body;
+    if (!startDate || !endDate || !mode || !event)
+      throw new CustomError(
+        'Details missing to generate Data needed : { startDate,endDate,mode,event }',
+        400
+      );
+    if (mode !== 'WEEKLY' && mode !== 'CUSTOM')
+      throw new CustomError('Wrong mode provided!', 400);
+    const notebookParams = {
+      start_date: startDate,
+      end_date: endDate,
+      siteIds: (await getSiteIdsInRange(startDate, endDate)).join(','),
+      event: event,
+      mode: mode, //mode  = 'WEEKLY' | 'CUSTOM'
+    };
+    const result = await generateMetaData(notebookParams);
+    if (result.status === 200)
+      return res.status(result.status).json(result.data);
+    throw new CustomError('Some Error occured in Job run!', 500);
   }),
 };

@@ -16,7 +16,7 @@ async function weeklyJob() {
       const notebookParams = {
         start_date: startDate,
         end_date: endDate,
-        siteIds: await getSiteIdsInRange(startDate, endDate),
+        siteIds: (await getSiteIdsInRange(startDate, endDate)).join(','), //always atleast sends an empty array
         event: 'ADP_ERROR',
         mode: 'WEEKLY', //mode  = 'WEEKLY' | 'CUSTOM'
       };
