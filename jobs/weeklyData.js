@@ -1,17 +1,18 @@
 const schedule = require('node-schedule');
 
-const { formatDate } = require('../utils');
+const { formatDate, incrementDate } = require('../utils');
 const { generateMetaData } = require('../helpers/generate-data');
 const { getSiteIdsInRange } = require('../helpers/siteIds');
 const { database } = require('../database');
 
 async function weeklyJob() {
   console.log('Started job');
-  const job = schedule.scheduleJob('4 5 * * 0', async function () {
+  const job = schedule.scheduleJob('20 23 * * 0', async function () {
     try {
-      const { content } = await database.collection.get('script-error-data');
       const endDate = formatDate(new Date());
-      const startDate = formatDate(new Date().setDate(startDate.getDate() - 7));
+      const startDate = incrementDate(endDate, -6);
+      console.log('JOb triggered!', startDate, ' ', endDate);
+      const { content } = await database.collection.get('script-error-data');
       const notebookParams = {
         start_date: startDate,
         end_date: endDate,
