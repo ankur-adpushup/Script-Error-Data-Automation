@@ -4,19 +4,20 @@ const fs = require('fs');
 const { formatDate, incrementDate } = require('../utils');
 const { generateMetaData } = require('../helpers/generate-data');
 const path = require('path');
-const { doc } = require('../database');
 const { getSiteIdsInRange } = require('../helpers/siteIds');
+const { database } = require('../database');
 
 async function weeklyJob() {
   console.log('Started job');
   const job = schedule.scheduleJob('4 5 * * 0', async function () {
     try {
+      const { content } = await database.collection.get('script-error-data');
       const endDate = formatDate(new Date());
       const startDate = formatDate(new Date().setDate(startDate.getDate() - 7));
       const notebookParams = {
         start_date: startDate,
         end_date: endDate,
-        siteIds: (await getSiteIdsInRange(startDate, endDate)).join(','), //always atleast sends an empty array
+        siteIds: getSiteIdsInRange(content, startDate, endDate).join(','), //always atleast sends an empty array
         event: 'ADP_ERROR',
         mode: 'WEEKLY', //mode  = 'WEEKLY' | 'CUSTOM'
       };

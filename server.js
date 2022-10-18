@@ -5,7 +5,7 @@ const { weeklyJob } = require('./jobs/weeklyData');
 const { database } = require('./database');
 require('dotenv').config();
 const app = express();
-database.init();
+database.connect();
 global.__basedir = __dirname;
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));

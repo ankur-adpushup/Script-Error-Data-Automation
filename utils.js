@@ -33,5 +33,10 @@ function incrementDate(date_str, incrementor) {
   return parts.join('-');
 }
 
+//removes Duplicates from the array
+function removeDuplcatesInArray(arr) {
+  return Array.from(new Set(arr));
+}
+
 const rootDir = __dirname;
-module.exports = { formatDate, rootDir, incrementDate };
+module.exports = { formatDate, rootDir, incrementDate, removeDuplcatesInArray };
