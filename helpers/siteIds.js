@@ -1,8 +1,4 @@
-const {
-  incrementDate,
-  formatDate,
-  removeDuplcatesInArray,
-} = require('../utils');
+const { incrementDate, removeDuplcatesInArray } = require('../utils');
 
 //Appends siteIds to respective rows, treats date as the row id ( If row is present then appends it, else creates a new row with the respective date )
 function appendSiteIds(doc, date, siteIds) {

@@ -1,9 +1,7 @@
 const schedule = require('node-schedule');
-const ObjectsToCsv = require('objects-to-csv');
-const fs = require('fs');
-const { formatDate, incrementDate } = require('../utils');
+
+const { formatDate } = require('../utils');
 const { generateMetaData } = require('../helpers/generate-data');
-const path = require('path');
 const { getSiteIdsInRange } = require('../helpers/siteIds');
 const { database } = require('../database');
 
