@@ -6,12 +6,16 @@ const { formatDate, removeDuplcatesInArray } = require('../utils');
 const { appendSiteIds, getSiteIdsInRange } = require('../helpers/siteIds');
 
 module.exports = {
+  test: catchAsync(async (req, res) => {
+    return res.status(200).send('Server is working!');
+  }),
   getSiteIds: catchAsync(async (req, res) => {
     const { content } = await database.collection.get('script-error-data');
     if (!content) throw new CustomError('No Document Found!', 500);
     const { startDate, endDate } = req.query;
-    console.log(startDate, endDate);
-    if (!content) throw new CustomError('No Document Found!', 500);
+    console.log('startDate is :', startDate, 'endDate is : ', endDate);
+    if (!startDate || !endDate)
+      throw new CustomError('Start Date or end Date not provided!', 500);
     return res.status(200).json(getSiteIdsInRange(content, startDate, endDate));
   }),
   append: catchAsync(async (req, res) => {

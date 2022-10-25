@@ -16,12 +16,11 @@
     "couchbase": "^4.1.3",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
-    "google-spreadsheet": "^3.3.0",
-    "node-schedule": "^2.1.0",
-    "objects-to-csv": "^1.3.6"
+    "node-schedule": "^2.1.0"
   },
   "devDependencies": {},
   "scripts": {
+    "v": "node -v",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js"
   },
